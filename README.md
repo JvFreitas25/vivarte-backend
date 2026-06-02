@@ -314,4 +314,4 @@ João Victor Freitas da Silva
 Desenvolvedor Java | Spring Boot | React
 
 GitHub: https://github.com/JvFreitas25
-LinkedIn: https://linkedin.com/in/João Freitas
+LinkedIn: https://linkedin.com/in/JoaoFreitas
