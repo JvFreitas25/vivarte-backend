@@ -1,7 +1,9 @@
 package br.com.vivarte.vivarte.controller;
 
+import br.com.vivarte.vivarte.dto.Login.LoginRequestDTO;
 import br.com.vivarte.vivarte.dto.User.UserRequestDTO;
 import br.com.vivarte.vivarte.dto.User.UserResponseDTO;
+import br.com.vivarte.vivarte.entity.User;
 import br.com.vivarte.vivarte.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,14 @@ public class UserController {
     ) {
 
         return userService.create(request);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponseDTO login(
+            @RequestBody LoginRequestDTO request
+    ) {
+        return userService.login(request);
     }
 
     @GetMapping

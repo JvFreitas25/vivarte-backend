@@ -1,5 +1,6 @@
 package br.com.vivarte.vivarte.service;
 
+import br.com.vivarte.vivarte.dto.Login.LoginRequestDTO;
 import br.com.vivarte.vivarte.dto.User.UserRequestDTO;
 import br.com.vivarte.vivarte.dto.User.UserResponseDTO;
 import br.com.vivarte.vivarte.entity.User;
@@ -77,6 +78,19 @@ public class UserService {
                         new NotFoundException(
                                 "Usuário não encontrado"
                         ));
+    }
+
+    public UserResponseDTO login(LoginRequestDTO request) {
+        User user = userRepository
+                .findByEmail(request.email())
+                .orElseThrow(() ->
+                        new NotFoundException("Usuário não encontrado"));
+
+        if (!user.getPassword().equals(request.password())) {
+            throw new BadRequestException("Senha inválida");
+        }
+
+        return toDto(user);
     }
 
     public void delete(Integer id) {
