@@ -46,6 +46,14 @@ public class ProductController {
         return productService.findById(id);
     }
 
+    @GetMapping("/search")
+    public List<ProductResponseDTO> search(
+            @RequestParam String name
+    ) {
+
+        return productService.searchByName(name);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(

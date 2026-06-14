@@ -6,6 +6,7 @@ import br.com.vivarte.vivarte.entity.Cart;
 import br.com.vivarte.vivarte.entity.CartItem;
 import br.com.vivarte.vivarte.entity.Product;
 import br.com.vivarte.vivarte.entity.User;
+import br.com.vivarte.vivarte.exception.BadRequestException;
 import br.com.vivarte.vivarte.exception.NotFoundException;
 import br.com.vivarte.vivarte.repository.ICartItemRepository;
 import br.com.vivarte.vivarte.repository.ICartRepository;
@@ -77,13 +78,30 @@ public class CartService {
 
             CartItem item = existingItem.get();
 
-            item.setQuantity(
-                    item.getQuantity() + quantity
-            );
+            int newQuantity =
+                    item.getQuantity() + quantity;
+
+            if (newQuantity > product.getStock()) {
+
+                throw new BadRequestException(
+                        "Quantidade solicitada maior que o estoque disponível. Estoque atual: "
+                                + product.getStock()
+                );
+            }
+
+            item.setQuantity(newQuantity);
 
             cartItemRepository.save(item);
 
         } else {
+
+            if (quantity > product.getStock()) {
+
+                throw new BadRequestException(
+                        "Quantidade solicitada maior que o estoque disponível. Estoque atual: "
+                                + product.getStock()
+                );
+            }
 
             CartItem item = CartItem.builder()
                     .cart(cart)
@@ -112,6 +130,7 @@ public class CartService {
             );
         }
 
+
         Cart cart = cartRepository.findByClientId(userId)
                 .orElseThrow(() ->
                         new NotFoundException(
@@ -127,6 +146,16 @@ public class CartService {
                                 new NotFoundException(
                                         "Item não encontrado"
                                 ));
+
+        Product product = item.getProduct();
+
+        if (quantity > product.getStock()) {
+
+            throw new BadRequestException(
+                    "Quantidade solicitada maior que o estoque disponível. Estoque atual: "
+                            + product.getStock()
+            );
+        }
 
         if (quantity == 0) {
 

@@ -33,6 +33,20 @@ public class ProductImageService {
                                 new NotFoundException(
                                         "Produto não encontrado"
                                 ));
+        if (request.mainImage()) {
+
+            List<ProductImage> images =
+                    productImageRepository
+                            .findAllByProductId(
+                                    product.getId()
+                            );
+
+            images.forEach(image ->
+                    image.setMainImage(false)
+            );
+
+            productImageRepository.saveAll(images);
+        }
 
         ProductImage image = ProductImage.builder()
                 .imageUrl(request.imageUrl())

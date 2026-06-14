@@ -4,6 +4,7 @@ import br.com.vivarte.vivarte.dto.Login.LoginRequestDTO;
 import br.com.vivarte.vivarte.dto.User.UserRequestDTO;
 import br.com.vivarte.vivarte.dto.User.UserResponseDTO;
 import br.com.vivarte.vivarte.entity.User;
+import br.com.vivarte.vivarte.enums.Role;
 import br.com.vivarte.vivarte.exception.BadRequestException;
 import br.com.vivarte.vivarte.exception.NotFoundException;
 import br.com.vivarte.vivarte.repository.IUserRepository;
@@ -39,7 +40,7 @@ public class UserService {
                 .name(request.name())
                 .email(request.email())
                 .password(request.password())
-                .role(request.role())
+                .role(Role.CLIENT)
                 .phone(request.phone())
                 .createdAt(LocalDateTime.now())
 

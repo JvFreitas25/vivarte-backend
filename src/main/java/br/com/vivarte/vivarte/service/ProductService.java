@@ -88,6 +88,15 @@ public class ProductService {
                         ));
     }
 
+    public List<ProductResponseDTO> searchByName(String name) {
+
+        return productRepository
+                .findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::toDto)
+                .toList();
+    }
+
     public void delete(Integer id, Integer userId) {
 
         User user = userRepository.findById(userId)

@@ -25,6 +25,7 @@ public class OrderService {
     private final ICartItemRepository cartItemRepository;
     private final IOrderItemRepository orderItemRepository;
     private final IUserRepository userRepository;
+    private final IProductRepository productRepository;
 
     public OrderResponseDTO createOrder(OrderRequestDTO request) {
 
@@ -45,6 +46,21 @@ public class OrderService {
             throw new BadRequestException(
                     "Carrinho vazio"
             );
+        }
+
+        for (CartItem item : cart.getItems()) {
+
+            Product product = item.getProduct();
+
+            if (item.getQuantity() > product.getStock()) {
+
+                throw new BadRequestException(
+                        "Estoque insuficiente para o produto: "
+                                + product.getName()
+                                + ". Disponível: "
+                                + product.getStock()
+                );
+            }
         }
 
         BigDecimal total =
@@ -99,6 +115,18 @@ public class OrderService {
                         .toList();
 
         orderItemRepository.saveAll(orderItems);
+
+        for (CartItem item : cart.getItems()) {
+
+            Product product = item.getProduct();
+
+            product.setStock(
+                    product.getStock()
+                            - item.getQuantity()
+            );
+
+            productRepository.save(product);
+        }
 
         cartItemRepository.deleteAll(cart.getItems());
 

@@ -18,9 +18,6 @@ public record UserRequestDTO(
         String password,
 
         @NotBlank(message = "Telefone é obrigatória")
-        String phone,
-
-        @NotNull(message = "Role é obrigatória")
-        Role role
+        String phone
 ) {
 }

@@ -18,4 +18,5 @@ public interface IProductRepository extends
     List<Product> findByNameContainingIgnoreCase(
             String name
     );
+
 }
