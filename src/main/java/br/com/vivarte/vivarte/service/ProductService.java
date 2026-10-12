@@ -14,6 +14,7 @@ import br.com.vivarte.vivarte.repository.ICategoryRepository;
 import br.com.vivarte.vivarte.repository.IProductRepository;
 import br.com.vivarte.vivarte.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
